@@ -9,14 +9,19 @@ class Scrape:
     """.."""
 
     def __init__(self):
-        """.."""
+        """Intializing varibales."""
         self.proposal_url = "https://in.pycon.org/cfp/2016/proposals/"
         self.base_url = 'https://in.pycon.org'
         self.result = {}
         self.headers = {}
 
     def make_request(self, url):
-        """.."""
+        """Making request to get html page of given url.
+
+        :params url
+        Return
+            BeautifulSoup object or None
+        """
         try:
             self.headers['User-Agent'] = ("Mozilla/5.0 (Macintosh; Intel Mac"
                                           " OS X 10_11_5) AppleWebKit/537.36"
@@ -31,7 +36,11 @@ class Scrape:
         return None
 
     def start(self):
-        """.."""
+        """Call to start scraping in.pycon.org proposals.
+
+        Return
+            dict of proposals.
+        """
         soup = self.make_request(self.proposal_url)
         if not soup:
             return
@@ -55,9 +64,10 @@ class Scrape:
                     print traceback.format_exc()
             self.result[title] = temp
 
-        from pprint import pprint
-        # Printing data
-        pprint(self.result)
+        # from pprint import pprint
+        # # Printing data
+        # pprint(self.result)
+        return self.result
 
 if __name__ == '__main__':
     Scrape().start()
