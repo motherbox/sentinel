@@ -3,6 +3,7 @@
 from bs4 import BeautifulSoup as Bs
 import requests
 import traceback
+import json
 
 
 class Scrape:
@@ -70,4 +71,6 @@ class Scrape:
         return self.result
 
 if __name__ == '__main__':
-    Scrape().start()
+    results = Scrape().start()
+    with open("results.json", "w") as f_out:
+        json.dump(results, f_out)
