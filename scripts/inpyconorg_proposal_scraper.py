@@ -27,7 +27,6 @@ class Scrape:
                                           " OS X 10_11_5) AppleWebKit/537.36"
                                           "(KHTML, like Gecko) Chrome/51.0."
                                           "2704.103 Safari/537.36")
-            print self.headers
             r = requests.get(url, headers=self.headers)
             if r.ok:
                 return Bs(r.text)
@@ -62,6 +61,14 @@ class Scrape:
                         [ptag.text for ptag in data.findAll('p')])
                 except:
                     print traceback.format_exc()
+            temp['comments'] = []
+            for comment in soup.findAll("div", attrs={'class': 'comment-description'}):
+                text = comment.find("span")
+                if text:
+                    temp['comments'].append(dict(
+                        text=text.text.strip(),
+                        by=comment.find('b').text.strip(),
+                        time=comment.find('small').text.strip()))
             self.result[title] = temp
 
         # from pprint import pprint
