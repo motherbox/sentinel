@@ -8,12 +8,13 @@ with open(sys.argv[1], "r") as fin:
     rawData = json.load(fin)
 
 titles = rawData.keys()
-pattern = "^[0-9]+\.\ "
-regex = re.compile(pattern, re.IGNORECASE)
-for title in titles:
-    v = rawData.pop(title)
-    clean_title = title.lstrip().rstrip()
-    rawData[re.sub(regex, "", title)] = v
+patterns = "^[0-9]+\.\ ", "\\n[0-9]+\.\ "
+for pattern in patterns:
+    regex = re.compile(pattern, re.IGNORECASE)
+    for title in titles:
+        v = rawData.pop(title)
+        clean_title = title.lstrip().rstrip()
+        rawData[re.sub(regex, "", title)] = clean_title
 
 df = pd.DataFrame.from_records(rawData)
 df = pd.DataFrame(index=df.T.index, columns=df.T.columns)
