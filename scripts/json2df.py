@@ -2,8 +2,9 @@
 import json
 import re
 import pandas as pd
+import sys
 
-with open("mehrab.json", "r") as fin:
+with open(sys.argv[1], "r") as fin:
     rawData = json.load(fin)
 
 titles = rawData.keys()
@@ -21,4 +22,4 @@ df.fillna(value="", inplace=True)
 for title, rowData in df.iterrows():
     df.loc[title] = pd.Series(rawData[title])
 
-df.to_csv("tabularcfp.tsv", sep="\t", index_label="title", encoding="utf8")
+df.to_csv(sys.argv[2], sep="\t", index_label="title", encoding="utf8")

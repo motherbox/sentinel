@@ -4,14 +4,15 @@ from bs4 import BeautifulSoup as Bs
 import requests
 import traceback
 import json
+import sys
 
 
 class Scrape:
     """.."""
 
-    def __init__(self):
+    def __init__(self, proposal_url):
         """Intializing varibales."""
-        self.proposal_url = "https://in.pycon.org/cfp/2016/proposals/"
+        self.proposal_url = proposal_url
         self.base_url = 'https://in.pycon.org'
         self.result = {}
         self.headers = {}
@@ -78,6 +79,6 @@ class Scrape:
         return self.result
 
 if __name__ == '__main__':
-    results = Scrape().start()
-    with open("results.json", "w") as f_out:
+    results = Scrape(sys.argv[1]).start()
+    with open(sys.argv[2], "w") as f_out:
         json.dump(results, f_out)
