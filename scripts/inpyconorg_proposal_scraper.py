@@ -71,6 +71,10 @@ class Scrape:
                         text=text.text.strip(),
                         by=comment.find('b').text.strip(),
                         time=comment.find('small').text.strip()))
+            talk_details = soup.findAll('tr')
+            for section in talk_details:
+                row = section.findAll('td')
+                temp[row[0].text] = row[1].text
             self.result[title] = temp
 
         # from pprint import pprint

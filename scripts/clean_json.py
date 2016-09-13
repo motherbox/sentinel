@@ -1,6 +1,7 @@
 import json
 import pandas as pd
 import re
+import numpy as np
 
 
 def json2df(fname, year):
@@ -23,7 +24,11 @@ def json2df(fname, year):
     df['n_comments'] = df.pop('comments')
     for ix, rowdata in df.iterrows():
         rowdata.loc["n_comments"] = len(cleanTitles[ix]['comments'])
+    df['n_comments'] = df['n_comments'].astype(int)
     df['year'] = year
+    for col in df:
+        if df[col].dtype is np.dtype('O'):
+            df[col] = df.pop(col).apply(lambda x: x.lstrip().rstrip())
     return df
 
 if __name__ == '__main__':
