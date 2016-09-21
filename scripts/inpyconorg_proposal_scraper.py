@@ -75,6 +75,12 @@ class Scrape:
             for section in talk_details:
                 row = section.findAll('td')
                 temp[row[0].text] = row[1].text
+            try:
+                vCount = soup.findAll('h1', attrs={'class': 'vote-count'})[0]
+                temp["n_votes"] = int(vCount.text.lstrip().rstrip())
+            except IndexError:
+                from IPython.core.debugger import Tracer
+                Tracer()()
             self.result[title] = temp
 
         # from pprint import pprint
